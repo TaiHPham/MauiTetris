@@ -14,8 +14,6 @@ namespace Tetris
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-
-
         // variables for Grid
         private int W = 10, H = 20, TILE = 45;
         private Rectangle[] GRID;
@@ -65,17 +63,10 @@ namespace Tetris
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
-
-
-
-
         }
 
         protected override void Initialize()
         {
-
-
             // window size
             WINDOW_WIDTH = W * TILE;
             WINDOW_HEIGHT = H * TILE;
@@ -84,11 +75,7 @@ namespace Tetris
             _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
 
-
-
-
             // set up grid
-
             GRID = new Rectangle[W * H];
 
             for (int x = 0; x < W; ++x)
@@ -100,7 +87,6 @@ namespace Tetris
             }
 
             // set up pieces
-
             figure_pos = new int[,,] {
                     { { -1, 0 }, { -2, 0 }, { 0, 0 }, { 1, 0 } },
                     { { 0, -1 }, { -1, -1 }, { -1, 0 }, { 0, 0 } },
@@ -113,7 +99,6 @@ namespace Tetris
                                       };
 
             int figure_num = 7;
-
 
             figures = new Rectangle[figure_num, 4];
 
@@ -146,7 +131,6 @@ namespace Tetris
             anim_limit = 4000;
             pause = false;
 
-
             // set up field
             Reset_Field();
 
@@ -165,12 +149,7 @@ namespace Tetris
             gameovertimer = false;
             high_score = 18400;
 
-
-
-
             base.Initialize();
-
-
         }
 
         protected override void LoadContent()
@@ -201,16 +180,12 @@ namespace Tetris
             Microsoft.Xna.Framework.Media.MediaPlayer.IsRepeating = true;
             ChangeMusic(tetrisTheme);
             Microsoft.Xna.Framework.Media.MediaPlayer.Volume = Microsoft.Xna.Framework.Media.MediaPlayer.Volume - .9F;
-
-
-
         }
 
 
 
         protected override void Update(GameTime gameTime)
         {
-
             // some xbox thing for exiting the game?
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -223,7 +198,6 @@ namespace Tetris
                     gameovertimer = false;
                     New_figure();
                     New_figure();
-
                 }
                 else
                 {
@@ -232,12 +206,9 @@ namespace Tetris
                 }
             }
 
-
-
             // keyboard state
             previousKeyboardState = keyboardState;
             keyboardState = Microsoft.Xna.Framework.Input.Keyboard.GetState();
-
 
             // move x
             if (keyboardState.IsKeyDown(Keys.A) && anim_count % 100 == 0)
@@ -246,7 +217,6 @@ namespace Tetris
                 dx = 1;
             else
                 dx = 0;
-
 
             Rectangle[] figure_old = Copy_figure(figure);
             if (!pause)
@@ -267,9 +237,6 @@ namespace Tetris
             }
 
             //move y
-
-
-
             if (keyboardState.IsKeyDown(Keys.S))
                 anim_limit = 100;
             else
@@ -302,11 +269,9 @@ namespace Tetris
                         break;
                     }
                 }
-
             }
 
             // rotation
-
             if (NewKey(Keys.W))
             {
                 rotate = true;
@@ -315,7 +280,6 @@ namespace Tetris
                 rotate = false;
 
             Rectangle center = figure[0];
-
 
             if (rotate && pause == false)
             {
@@ -334,11 +298,8 @@ namespace Tetris
                             break;
                         }
                     }
-
                 }
-
             }
-
 
             // check lines
 
@@ -356,7 +317,6 @@ namespace Tetris
                 if (count < W)
                 {
                     line--;
-
                 }
                 else
                 {
@@ -365,7 +325,6 @@ namespace Tetris
                     lines_this_level++;
                     total_lines++;
                 }
-
             }
 
             // pause
@@ -378,9 +337,7 @@ namespace Tetris
             if (NewKey(Keys.P) && pause && can_unpause)
                 pause = false;
 
-
             // update progress
-
             score += scores[lines];
             if (lines_this_level > 9)
             {
@@ -389,7 +346,6 @@ namespace Tetris
             }
 
             // game over
-
             for (int i = 0; i < W; ++i)
             {
                 if (field[i, 0])
@@ -403,14 +359,10 @@ namespace Tetris
 
                     gameover = true;
                     sw = Stopwatch.StartNew();
-
-
                 }
-
             }
 
             //volume
-
             float vol = .01F;
 
             if (keyboardState.IsKeyDown(Keys.OemMinus))
@@ -418,18 +370,11 @@ namespace Tetris
             if (keyboardState.IsKeyDown(Keys.OemPlus))
                 Microsoft.Xna.Framework.Media.MediaPlayer.Volume = Microsoft.Xna.Framework.Media.MediaPlayer.Volume + vol;
 
-
-
-
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-
-
-
-
             // clear canvas
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.LightGray);
 
@@ -437,21 +382,14 @@ namespace Tetris
             _spriteBatch.Begin();
 
             // draw grid
-
             foreach (Rectangle rect in GRID)
             {
                 _spriteBatch.Draw(grid_40, rect, Microsoft.Xna.Framework.Color.Black);
             }
 
-
-
-
             //_spriteBatch.Draw(golden_eagle, new Rectangle(0,0, W * TILE, H * TILE), Color.White);  //doesn't work, ugly
 
-
-
             //draw right panel
-
             _spriteBatch.Draw(pixel, new Rectangle(W * TILE, 0, W * TILE, H * TILE), new Microsoft.Xna.Framework.Color(37, 82, 160));
             _spriteBatch.DrawString(fontTetris, "Tetris", new Vector2(W * TILE + 10, 30), Microsoft.Xna.Framework.Color.Orange);
             _spriteBatch.DrawString(fontCourier, "Next:", new Vector2(W * TILE + 75, 125), Microsoft.Xna.Framework.Color.Orange);
@@ -473,7 +411,6 @@ namespace Tetris
             }
 
             //draw next_figure
-
             for (int i = 0; i < 4; ++i)
             {
                 figure_rect.X = next_figure[i].X * TILE + W * TILE - 20;
@@ -483,7 +420,6 @@ namespace Tetris
 
 
             // draw field
-
             for (int i = 0; i < W; ++i)
             {
                 for (int j = 0; j < H; ++j)
@@ -491,31 +427,21 @@ namespace Tetris
                     if (field[i, j] == true)
                         _spriteBatch.Draw(pixel, new Rectangle(i * TILE + 1, j * TILE + 1, TILE - 2, TILE - 2), color_field[i, j]);
                 }
-
             }
 
             // game over
             if (gameover)
             {
-
                 gameovertimer = true;
-
 
                 for (int x = 0; x < W; ++x)
                 {
                     for (int y = 0; y < H; ++y)
                     {
-
                         _spriteBatch.Draw(pixel, new Rectangle(x * TILE, y * TILE, TILE, TILE), New_Color());
-
                     }
                 }
-
-
             }
-
-
-
             // end rendering
             _spriteBatch.End();
 
@@ -589,6 +515,5 @@ namespace Tetris
                     field[i, j] = false;
             }
         }
-
     }
 }

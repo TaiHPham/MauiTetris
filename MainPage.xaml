@@ -9,31 +9,57 @@
             Padding="30,0"
             VerticalOptions="Center">
 
+            <!-- Tetris Image -->
             <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                Source="tetris_logo.png"
+                SemanticProperties.Description="Tetris logo"
                 HeightRequest="200"
                 HorizontalOptions="Center" />
 
+            <!-- Text -->
             <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
+                Text="Get ready to stack some blocks and clear lines!"
                 SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                SemanticProperties.Description="Welcome message"
                 FontSize="18"
                 HorizontalOptions="Center" />
 
+            <!-- Start Button -->
             <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
+                Text="START"
+                Clicked="OnStartClicked"
+                FontSize="24"
+                FontAttributes="Bold"
+                BackgroundColor="#2D2E83"
+                Margin="0,20,0,0"
+                WidthRequest="155"
+                HeightRequest="50"
                 HorizontalOptions="Center" />
+
+            <!-- Scoreboard Button -->
+            <Button
+                Text="SCOREBOARD"
+                Clicked="OnScoreboardClicked"
+                FontSize="18"
+                FontAttributes="Bold"
+                BackgroundColor="#2D2E83"
+                Margin="0,20,0,0"
+                WidthRequest="155"
+                HeightRequest="45"
+                HorizontalOptions="Center" />
+
+            <!-- Controls Button -->
+            <Button
+                Text="?"
+                Clicked="OnHowToPlayClicked"
+                FontSize="18"
+                FontAttributes="Bold"
+                BackgroundColor="#2D2E83"
+                Margin="0,20,0,0"
+                WidthRequest="40"
+                HeightRequest="40"
+                HorizontalOptions="End"
+                VerticalOptions="End" />
 
         </VerticalStackLayout>
     </ScrollView>
