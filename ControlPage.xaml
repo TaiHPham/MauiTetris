@@ -31,7 +31,8 @@
                    HorizontalOptions="Center" Margin="10"/>
             <Label Text="S: Move piece down" FontSize="Medium" 
                    HorizontalOptions="Center" Margin="10"/>
-
+            <Label Text="P: To pause" FontSize="Medium" 
+                   HorizontalOptions="Center" Margin="10"/>
 
         </StackLayout>
     </ScrollView>
