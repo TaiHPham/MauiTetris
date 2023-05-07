@@ -57,7 +57,6 @@
 
                         <!-- Table Headers -->
                         <Label x:Name="Rank1" Grid.Row="0" Grid.Column="0" Text="Rank" FontSize="14"/>
-                        <Label x:Name="Name1" Grid.Row="0" Grid.Column="1" Text="Player Name" FontSize="14"/>
                         <Label x:Name="Score1" Grid.Row="0" Grid.Column="2" Text="Player Score" FontSize="14"/>
                         
                         <!-- Add more rows as needed -->

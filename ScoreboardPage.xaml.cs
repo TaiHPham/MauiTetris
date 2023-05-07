@@ -16,7 +16,7 @@ public partial class ScoreboardPage : ContentPage
 
     private async void LoadLeaderboard()
     {
-        string filePath = @"C:\Univ of South Miss\317\317-Tetris-Page-V2\Tetris\leaderboard.json";
+        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "high_scores.json");
 
         string json = await File.ReadAllTextAsync(filePath);
         leaderboardEntries = JsonSerializer.Deserialize<List<LeaderboardEntry>>(json);
@@ -39,16 +39,11 @@ public partial class ScoreboardPage : ContentPage
         for (int i = 0; i < leaderboardEntries.Count; i++)
         {
             var rankLabel = new Label { Text = (i + 1).ToString(), FontSize = 18 };
-            var nameLabel = new Label { Text = leaderboardEntries[i].Name, FontSize = 18 };
             var scoreLabel = new Label { Text = leaderboardEntries[i].Score.ToString(), FontSize = 18 };
 
             LeaderboardGrid.Children.Add(rankLabel);
             LeaderboardGrid.SetRow(rankLabel, i + 1);
             LeaderboardGrid.SetColumn(rankLabel, 0);
-
-            LeaderboardGrid.Children.Add(nameLabel);
-            LeaderboardGrid.SetRow(nameLabel, i + 1);
-            LeaderboardGrid.SetColumn(nameLabel, 1);
 
             LeaderboardGrid.Children.Add(scoreLabel);
             LeaderboardGrid.SetRow(scoreLabel, i + 1);
@@ -63,7 +58,6 @@ public partial class ScoreboardPage : ContentPage
 
     public class LeaderboardEntry
     {
-        public string Name { get; set; }
         public int Score { get; set; }
     }
 }

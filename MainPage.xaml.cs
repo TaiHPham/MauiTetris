@@ -11,7 +11,6 @@ public partial class MainPage : ContentPage
 	{
         using var game = new Tetris.TetrisGame();
         game.Run();
-
     }
 
     private void OnScoreboardClicked(object sender, EventArgs e)

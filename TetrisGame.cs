@@ -3,9 +3,14 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using System;
-using System.Collections.Generic;
+using Microsoft.Maui;
 using System.Diagnostics;
+using System.IO;
+using System.Text.Json;
+using Newtonsoft.Json;
+
+
+
 
 namespace Tetris
 {
@@ -35,6 +40,8 @@ namespace Tetris
         public int score, total_lines;
         private Dictionary<int, int> scores;
         public int high_score;
+        public int save_Score;
+        private List<ScoreData> leaderboardEntries;
 
         // variables for assets
         private Texture2D grid_40, pixel, incognito;
@@ -74,6 +81,7 @@ namespace Tetris
             _graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
             _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
+            LoadHighScore();
 
             // set up grid
             GRID = new Rectangle[W * H];
@@ -147,9 +155,15 @@ namespace Tetris
                     };
             gameover = false;
             gameovertimer = false;
-            high_score = 18400;
 
             base.Initialize();
+        }
+
+        // Define a class to hold the score data
+        public class ScoreData
+        {
+            //public string Name { get; set; }
+            public int Score { get; set; }
         }
 
         protected override void LoadContent()
@@ -181,8 +195,6 @@ namespace Tetris
             ChangeMusic(tetrisTheme);
             Microsoft.Xna.Framework.Media.MediaPlayer.Volume = Microsoft.Xna.Framework.Media.MediaPlayer.Volume - .9F;
         }
-
-
 
         protected override void Update(GameTime gameTime)
         {
@@ -353,6 +365,7 @@ namespace Tetris
                     Reset_Field();
                     high_score = Math.Max(score, high_score);
 
+                    save_Score = score;
                     total_lines = 0;
                     level = 1;
                     score = 0;
@@ -360,6 +373,12 @@ namespace Tetris
                     gameover = true;
                     sw = Stopwatch.StartNew();
                 }
+            }
+
+            if (gameover)
+            {
+                // Save the score to a JSON file
+                SaveScore(save_Score);
             }
 
             //volume
@@ -371,6 +390,41 @@ namespace Tetris
                 Microsoft.Xna.Framework.Media.MediaPlayer.Volume = Microsoft.Xna.Framework.Media.MediaPlayer.Volume + vol;
 
             base.Update(gameTime);
+        }
+
+        private void SaveScore(int save_Score)
+        {
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "high_scores.json");
+
+            // Read the existing data from the JSON file
+            string json = File.ReadAllText(filePath);
+            ScoreData[] existingData = JsonConvert.DeserializeObject<ScoreData[]>(json);
+
+            // Add the new data to the existing data
+            ScoreData newData = new ScoreData { Score = save_Score };
+            List<ScoreData> updatedData = new List<ScoreData>(existingData);
+            updatedData.Add(newData);
+
+            // Serialize the updated data back to the JSON file
+            string updatedJson = JsonConvert.SerializeObject(updatedData);
+            File.WriteAllText(filePath, updatedJson);
+        }
+
+        private int LoadHighScore()
+        {
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "high_scores.json");
+
+            string json = File.ReadAllText(filePath);
+            leaderboardEntries = JsonConvert.DeserializeObject<List<ScoreData>>(json);
+
+            // Sort the leaderboard entries by score in descending order
+            leaderboardEntries.Sort((entry1, entry2) => entry2.Score.CompareTo(entry1.Score));
+
+            if (leaderboardEntries.Count > 0)
+            {
+                high_score = leaderboardEntries[0].Score;
+            }
+            return high_score;
         }
 
         protected override void Draw(GameTime gameTime)
@@ -442,15 +496,13 @@ namespace Tetris
                     }
                 }
             }
+
             // end rendering
             _spriteBatch.End();
 
             // calling components rendering
             base.Draw(gameTime);
         }
-
-
-
 
         public void ChangeMusic(Song song)
         {
