@@ -9,8 +9,8 @@ public partial class MainPage : ContentPage
 
 	private void OnStartClicked(object sender, EventArgs e)
 	{
-        using var game = new Tetris.TetrisGame();
-        game.Run();
+        EnterNamePage enterNamePage = new EnterNamePage();
+        Navigation.PushAsync(enterNamePage);
     }
 
     private void OnScoreboardClicked(object sender, EventArgs e)

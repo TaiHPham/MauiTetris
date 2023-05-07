@@ -42,6 +42,7 @@ namespace Tetris
         public int high_score;
         public int save_Score;
         private List<ScoreData> leaderboardEntries;
+        public string player_Name = "";
 
         // variables for assets
         private Texture2D grid_40, pixel, incognito;
@@ -65,11 +66,12 @@ namespace Tetris
         public Stopwatch sw;
         public bool pause;
 
-        public TetrisGame()
+        public TetrisGame(string playerName)
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            player_Name = playerName;
         }
 
         protected override void Initialize()
@@ -162,7 +164,7 @@ namespace Tetris
         // Define a class to hold the score data
         public class ScoreData
         {
-            //public string Name { get; set; }
+            public string Name { get; set; }
             public int Score { get; set; }
         }
 
@@ -378,7 +380,7 @@ namespace Tetris
             if (gameover)
             {
                 // Save the score to a JSON file
-                SaveScore(save_Score);
+                SaveScore(player_Name, save_Score);
             }
 
             //volume
@@ -392,7 +394,7 @@ namespace Tetris
             base.Update(gameTime);
         }
 
-        private void SaveScore(int save_Score)
+        private void SaveScore(string player_Name, int save_Score)
         {
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "high_scores.json");
 
@@ -401,7 +403,7 @@ namespace Tetris
             ScoreData[] existingData = JsonConvert.DeserializeObject<ScoreData[]>(json);
 
             // Add the new data to the existing data
-            ScoreData newData = new ScoreData { Score = save_Score };
+            ScoreData newData = new ScoreData { Name = player_Name, Score = save_Score };
             List<ScoreData> updatedData = new List<ScoreData>(existingData);
             updatedData.Add(newData);
 
