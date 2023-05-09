@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiTetris.EnterNamePage">
+
+    <VerticalStackLayout>
+        <!-- Back button -->
+        <StackLayout>
+            <ImageButton 
+                Source="back_arrow.png" 
+                Clicked="OnBackButtonClicked" 
+                BackgroundColor="Transparent" 
+                WidthRequest="70"
+                HeightRequest="40"
+                HorizontalOptions="Start"
+                VerticalOptions="Start" />
+        </StackLayout>
+
+        <!-- Tetris Image -->
+        <Image
+                Source="tetris_logo.png"
+                SemanticProperties.Description="Tetris logo"
+                HeightRequest="200"
+                HorizontalOptions="Center" />
+
+        <!-- Enter Name -->
+        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" WidthRequest="200">
+        <Label Text="Enter a Name"
+                   FontSize="24"
+                   Margin="0,20,0,50"
+                   HorizontalOptions="CenterAndExpand"/>
+        <Entry x:Name="nameEntry" 
+                   Placeholder="Name"
+                   WidthRequest="300"/>
+        <Button Text="SUBMIT" 
+                    FontSize="24"
+                    FontAttributes="Bold"
+                    BackgroundColor="#2D2E83"
+                    Margin="0,50,0,0"
+                    Clicked="OnSubmitClicked"/>
+        </StackLayout>
+        
+    </VerticalStackLayout>
+    
+</ContentPage>

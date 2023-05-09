@@ -2,30 +2,27 @@
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
-
 	public MainPage()
 	{
 		InitializeComponent();
 	}
 
-	private void OnCounterClicked(object sender, EventArgs e)
+	private void OnStartClicked(object sender, EventArgs e)
 	{
+        EnterNamePage enterNamePage = new EnterNamePage();
+        Navigation.PushAsync(enterNamePage);
+    }
 
+    private void OnScoreboardClicked(object sender, EventArgs e)
+    {
+        ScoreboardPage scoreboardPage = new ScoreboardPage();
+        Navigation.PushAsync(scoreboardPage);
+    }
 
-        using var game = new Tetris.TetrisGame();
-        game.Run();
-
-        /*
-		count++;
-
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
-
-		SemanticScreenReader.Announce(CounterBtn.Text);
-		*/
+    private void OnHowToPlayClicked(object sender, EventArgs e)
+    {
+        ControlPage controlPage = new ControlPage();
+        Navigation.PushAsync(controlPage);
     }
 }
 
