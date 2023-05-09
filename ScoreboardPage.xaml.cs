@@ -17,8 +17,18 @@ public partial class ScoreboardPage : ContentPage
     private async void LoadLeaderboard()
     {
         string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "high_scores.json");
+        string json;
 
-        string json = await File.ReadAllTextAsync(filePath);
+        try
+        {
+            json = await File.ReadAllTextAsync(filePath);
+        }
+        catch (Exception e)
+        {
+            json = "[{\"Name\":\"Paul\",\"Score\":14700},{\"Name\":\"Paul\",\"Score\":7700}]";
+            File.WriteAllText(filePath, json);
+        }
+        
         leaderboardEntries = JsonSerializer.Deserialize<List<LeaderboardEntry>>(json);
 
         // Sort the leaderboard entries by score in descending order

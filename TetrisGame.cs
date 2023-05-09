@@ -415,8 +415,18 @@ namespace Tetris
         private int LoadHighScore()
         {
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "high_scores.json");
+            string json;
 
-            string json = File.ReadAllText(filePath);
+            try
+            {
+                json = File.ReadAllText(filePath);
+            }
+            catch (Exception e)
+            {
+                json = "[{\"Name\":\"Paul\",\"Score\":14700},{\"Name\":\"Paul\",\"Score\":7700}]";
+                File.WriteAllText(filePath, json);
+            }
+
             leaderboardEntries = JsonConvert.DeserializeObject<List<ScoreData>>(json);
 
             // Sort the leaderboard entries by score in descending order
